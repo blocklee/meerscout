@@ -34,11 +34,15 @@ services:
     links:
       - db:database
     environment:
-        ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:8545/
-        ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:8545/
+        ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:18545/
+        ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:18545/
+        ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:18546/
         MICROSERVICE_ACCOUNT_ABSTRACTION_ENABLED: true
         CHAIN_ID: '813'
+        EXCHANGE_RATES_MARKET_CAP_SOURCE: 'coin_market_cap'
+        EXCHANGE_RATES_PRICE_SOURCE: 'coin_market_cap' 
+        EXCHANGE_RATES_COINMARKETCAP_API_KEY: 'b082eb60-9ca2-43a8-817e-5df872cbba64'
+        EXCHANGE_RATES_COINMARKETCAP_COIN_ID: '15658'
 
   nft_media_handler:
     depends_on:
