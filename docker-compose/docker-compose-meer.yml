@@ -26,6 +26,8 @@ services:
     extends:
       file: ./services/meer.yml
       service: backend
+    # 加这一行，绝不拉取，只用本地
+    pull_policy: never
     build:
       context: ..
       dockerfile: ./docker/Dockerfile
@@ -34,9 +36,9 @@ services:
     links:
       - db:database
     environment:
-        ETHEREUM_JSONRPC_HTTP_URL: http://host.docker.internal:18545/
-        ETHEREUM_JSONRPC_TRACE_URL: http://host.docker.internal:18545/
-        ETHEREUM_JSONRPC_WS_URL: ws://host.docker.internal:18546/
+        ETHEREUM_JSONRPC_HTTP_URL: http://172.17.0.1:18545/
+        ETHEREUM_JSONRPC_TRACE_URL: http://172.17.0.1:18545/
+        ETHEREUM_JSONRPC_WS_URL: ws://172.17.0.1:18546/
         MICROSERVICE_ACCOUNT_ABSTRACTION_ENABLED: true
         CHAIN_ID: '813'
         EXCHANGE_RATES_MARKET_CAP_SOURCE: 'coin_market_cap'
@@ -72,6 +74,12 @@ services:
     extends:
       file: ./services/frontend.yml
       service: frontend
+    # 覆盖远程镜像, 使用本地自建镜像 # pull_policy覆盖 always，避免去 Docker Hub 拉不存在的 tag
+    # 确保指向正确的主网环境文件common-frontend-meer-mainnet.env
+    image: blockscout-frontend:meer-v138 
+    pull_policy: missing 
+    env_file:
+      - ./envs/common-frontend-meer-mainnet.env  
 
   stats-db-init:
     extends:

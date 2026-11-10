@@ -231,7 +231,7 @@ defmodule Indexer.Block.Realtime.Fetcher do
 
         other ->
           IO.puts("Error fetching stateroot: #{inspect(other)}")
-          {previous_number, qitmeer_previous_number}
+          {previous_number, qitmeer_previous_number, state.last_polled_hash}
       end
 
     timer = schedule_polling()
